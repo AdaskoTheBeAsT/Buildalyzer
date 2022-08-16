@@ -16,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A52BD74E-389
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buildalyzer.Logger", "src\Buildalyzer.Logger\Buildalyzer.Logger.csproj", "{A46CB47B-1561-41F2-AF52-F0E1DC2C886A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".props", ".props", "{6849C942-A81C-46CD-8398-9CE4869D2FDE}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C0EF6BC-7A9B-4B29-9BFB-4098842FEBB6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig

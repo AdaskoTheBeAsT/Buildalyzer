@@ -301,8 +301,8 @@ public static class AnalyzerResultExtensions
         IAnalyzerAssemblyLoader loader = workspace.Services.GetRequiredService<IAnalyzerService>().GetLoader();
 
         string projectDirectory = Path.GetDirectoryName(analyzerResult.ProjectFilePath);
-        return analyzerResult.AnalyzerReferences?.Where(x => File.Exists(Path.GetFullPath(x, projectDirectory!)))
-            .Select(x => new AnalyzerFileReference(Path.GetFullPath(x, projectDirectory!), loader))
+        return analyzerResult.AnalyzerReferences?.Where(x => File.Exists(Path.GetFullPath(Path.Combine(projectDirectory, x))))
+            .Select(x => new AnalyzerFileReference(Path.GetFullPath(Path.Combine(projectDirectory, x)), loader))
             ?? [];
     }
 

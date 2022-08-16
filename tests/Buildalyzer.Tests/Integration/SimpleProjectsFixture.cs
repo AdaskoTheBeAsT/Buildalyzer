@@ -123,7 +123,10 @@ public class SimpleProjectsFixture
 
         // Then
         // If this is the multi-targeted project, use the net462 target
-        IReadOnlyList<string> sourceFiles = results.Count == 1 ? results.First().SourceFiles : results["net462"].SourceFiles;
+            IReadOnlyList<string> sourceFiles =
+                results.Count == 1
+                    ? results.First().SourceFiles
+                    : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
         sourceFiles.ShouldNotBeNull(log.ToString());
         new[]
         {
@@ -134,9 +137,16 @@ public class SimpleProjectsFixture
     }
 
     [Test]
+#if NETCOREAPP3_1_OR_GREATER
     public void GetsReferences(
         [ValueSource(nameof(Preferences))] EnvironmentPreference preference,
         [ValueSource(nameof(ProjectFiles))][NotNull] string projectFile)
+#endif
+#if NET472_OR_GREATER
+        public void GetsReferences(
+            [ValueSource(nameof(Preferences))] EnvironmentPreference preference,
+            [ValueSource(nameof(ProjectFiles))] string projectFile)
+#endif
     {
         // Given
         StringWriter log = new StringWriter();
@@ -182,7 +192,10 @@ public class SimpleProjectsFixture
 
             // Then
             // If this is the multi-targeted project, use the net462 target
-            IReadOnlyList<string> sourceFiles = results.Count == 1 ? results.First().SourceFiles : results["net462"].SourceFiles;
+                IReadOnlyList<string> sourceFiles =
+                    results.Count == 1
+                        ? results.First().SourceFiles
+                        : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
             sourceFiles.ShouldNotBeNull(log.ToString());
             new[]
             {
@@ -212,7 +225,10 @@ public class SimpleProjectsFixture
         IAnalyzerResults results = analyzer.Build();
 
         // Then
-        IReadOnlyList<string> sourceFiles = results.SingleOrDefault()?.SourceFiles;
+            IReadOnlyList<string> sourceFiles =
+                results.Count == 1
+                ? results.First().SourceFiles
+                : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
         sourceFiles.ShouldNotBeNull(log.ToString());
         new[]
         {

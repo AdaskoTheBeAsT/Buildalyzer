@@ -97,6 +97,7 @@ public class AnalyzerResult : IAnalyzerResult
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
+
     {
         get
         {
@@ -149,6 +150,8 @@ public class AnalyzerResult : IAnalyzerResult
     {
         // Some projects can have multiple Csc calls (see #92) so if this is the one inside CoreCompile use it, otherwise use the first
         if (string.IsNullOrWhiteSpace(commandLine) || (CompilerCommand != null && !coreCompile))
+
+
         {
             return;
         }
@@ -163,6 +166,8 @@ public class AnalyzerResult : IAnalyzerResult
     internal void ProcessFscCommandLine(string commandLine)
     {
         CompilerCommand = Compiler.CommandLine.Parse(new FileInfo(ProjectFilePath).Directory, commandLine, CompilerLanguage.FSharp);
+
+
     }
 
     private sealed class ProjectItemItemSpecEqualityComparer : IEqualityComparer<IProjectItem>
