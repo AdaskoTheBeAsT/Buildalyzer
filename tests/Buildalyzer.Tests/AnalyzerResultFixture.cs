@@ -47,7 +47,12 @@ namespace Buildalyzer.Tests
             // Then
             result.Command.ShouldBe(commandLine);
             result.FileName.ShouldBe(Path.Combine("/", "Fizz", "Buzz", "csc.exe"));
+            #if NET472_OR_GREATER
+            result.Arguments.ShouldBe(CscOptions.Split(' ').Where(s => !string.IsNullOrEmpty(s)).Concat(sourceFiles));
+            #endif
+            #if NET6_0_OR_GREATER
             result.Arguments.ShouldBe(CscOptions.Split(' ', StringSplitOptions.RemoveEmptyEntries).Concat(sourceFiles));
+            #endif
             result.ProcessedArguments.Where(x => x.Item1 == null).Select(x => x.Item2).Skip(1).ShouldBe(sourceFiles);
         }
 
@@ -70,7 +75,12 @@ namespace Buildalyzer.Tests
             // Then
             result.Command.ShouldBe(commandLine);
             result.CompilerFilePath.ShouldBe(Path.Combine("/", "Fizz", "Buzz", "csc.exe"));
+#if NET472_OR_GREATER
+            result.CompilerArguments.ShouldBe(CscOptions.Split(' ').Where(s => !string.IsNullOrEmpty(s)).Concat(input.Split(' ').Where(s => !string.IsNullOrEmpty(s))));
+#endif
+#if NET6_0_OR_GREATER
             result.CompilerArguments.ShouldBe(CscOptions.Split(' ', StringSplitOptions.RemoveEmptyEntries).Concat(input.Split(' ', StringSplitOptions.RemoveEmptyEntries)));
+#endif
             result.SourceFiles.ShouldBe(sourceFiles.Select(x => Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFilePath), x))));
         }
 
@@ -142,7 +152,12 @@ namespace Buildalyzer.Tests
             // Then
             result.Command.ShouldBe(commandLine);
             result.FileName.ShouldBe(Path.Combine("/", "Fizz", "Buzz", "vbc.exe"));
+#if NET472_OR_GREATER
+            result.Arguments.ShouldBe(VbcOptions.Split(' ').Where(s => !string.IsNullOrEmpty(s)).Concat(sourceFiles));
+#endif
+#if NET6_0_OR_GREATER
             result.Arguments.ShouldBe(VbcOptions.Split(' ', StringSplitOptions.RemoveEmptyEntries).Concat(sourceFiles));
+#endif
             result.ProcessedArguments.Where(x => x.Item1 == null).Select(x => x.Item2).Skip(1).ShouldBe(sourceFiles);
         }
 

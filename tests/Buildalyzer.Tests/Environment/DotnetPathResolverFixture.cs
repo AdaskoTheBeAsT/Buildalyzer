@@ -15,10 +15,15 @@ namespace Buildalyzer.Tests.Environment
         [TestCase(WindowsNetOutput, @"C:\Program Files\dotnet\sdk\6.0.100\")]
         [TestCase(WindowsNetCoreOutput, @"C:\Program Files\dotnet\sdk\2.1.300\")]
         [TestCase(LinuxOutput, "/usr/share/dotnet/sdk/2.1.401/")]
+#if NETCOREAPP3_1_OR_GREATER
         public void CanParseBasePath([NotNull] string output, string basePath)
+#endif
+#if NET472_OR_GREATER
+        public void CanParseBasePath(string output, string basePath)
+#endif
         {
             // Given
-            List<string> lines = output.Split("\n").Select(x => x.Trim('\r')).ToList();
+            List<string> lines = output.Split('\n').Select(x => x.Trim('\r')).ToList();
 
             // When
             string result = DotnetPathResolver.ParseBasePath(lines);
@@ -30,10 +35,15 @@ namespace Buildalyzer.Tests.Environment
         [TestCase(WindowsNetOutput, @"C:\Program Files\dotnet\sdk\6.0.100\")]
         [TestCase(WindowsNetCoreOutput, @"C:\Program Files\dotnet\sdk\2.1.201\")]
         [TestCase(LinuxOutput, "/usr/share/dotnet/sdk/2.1.201/")]
+#if NETCOREAPP3_1_OR_GREATER
         public void CanParseInstalledSdksPath([NotNull] string output, string sdksPath)
+#endif
+#if NET472_OR_GREATER
+        public void CanParseInstalledSdksPath(string output, string sdksPath)
+#endif
         {
             // Given
-            List<string> lines = output.Split("\n").Select(x => x.Trim('\r')).ToList();
+            List<string> lines = output.Split('\n').Select(x => x.Trim('\r')).ToList();
 
             // When
             string result = DotnetPathResolver.ParseInstalledSdksPath(lines);

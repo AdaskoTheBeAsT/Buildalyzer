@@ -84,7 +84,7 @@ namespace Buildalyzer.Construction
         internal static string[] GetTargetFrameworks(
             IEnumerable<string> targetFrameworksValues,
             IEnumerable<string> targetFrameworkValues,
-            IEnumerable<(string, string)> targetFrameworkIdentifierAndVersionValues)
+            IEnumerable<(string TargetFrameworkIdentifier, string TargetFrameworkVersion)> targetFrameworkIdentifierAndVersionValues)
         {
             // Use TargetFrameworks and/or TargetFramework if either were found
             IEnumerable<string> allTargetFrameworks = null;
@@ -94,12 +94,14 @@ namespace Buildalyzer.Construction
                     .Where(x => x != null)
                     .SelectMany(x => x.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim()));
             }
+
             if (targetFrameworkValues != null)
             {
                 allTargetFrameworks = allTargetFrameworks == null
                     ? targetFrameworkValues.Where(x => x != null).Select(x => x.Trim())
                     : allTargetFrameworks.Concat(targetFrameworkValues.Where(x => x != null).Select(x => x.Trim()));
             }
+
             if (allTargetFrameworks != null)
             {
                 string[] distinctTargetFrameworks = allTargetFrameworks.Distinct().ToArray();
@@ -115,14 +117,14 @@ namespace Buildalyzer.Construction
             // This is also unreliable because a particular TargetFrameworkIdentifier could result from different TargetFramework
             // For example, both "win" and "uap" TargetFramework map back to ".NETCore" TargetFrameworkIdentifier
             return targetFrameworkIdentifierAndVersionValues?
-                .Where(value => value.Item1 != null && value.Item2 != null)
+                .Where(value => value.TargetFrameworkIdentifier != null && value.TargetFrameworkVersion != null)
                 .Select(value =>
                 {
                     // If we have a mapping, use it
-                    if (TargetFrameworkIdentifierToTargetFramework.TryGetValue(value.Item1, out (string, bool) targetFramework))
+                    if (TargetFrameworkIdentifierToTargetFramework.TryGetValue(value.TargetFrameworkIdentifier, out (string, bool) targetFramework))
                     {
                         // Append the TargetFrameworkVersion, stripping non-digits (this probably isn't correct in some cases)
-                        return targetFramework.Item1 + new string(value.Item2.Where(x => char.IsDigit(x) || (targetFramework.Item2 && x == '.')).ToArray());
+                        return targetFramework.Item1 + new string(value.TargetFrameworkVersion.Where(x => char.IsDigit(x) || (targetFramework.Item2 && x == '.')).ToArray());
                     }
 
                     // Otherwise ¯\_(ツ)_/¯

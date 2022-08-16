@@ -142,9 +142,16 @@ namespace Buildalyzer.Tests.Integration
         }
 
         [Test]
+#if NETCOREAPP3_1_OR_GREATER
         public void GetsReferences(
             [ValueSource(nameof(Preferences))] EnvironmentPreference preference,
             [ValueSource(nameof(ProjectFiles))] [NotNull] string projectFile)
+#endif
+#if NET472_OR_GREATER
+        public void GetsReferences(
+            [ValueSource(nameof(Preferences))] EnvironmentPreference preference,
+            [ValueSource(nameof(ProjectFiles))] string projectFile)
+#endif
         {
             // Given
             StringWriter log = new StringWriter();

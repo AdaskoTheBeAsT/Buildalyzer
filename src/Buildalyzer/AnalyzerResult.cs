@@ -181,6 +181,7 @@ namespace Buildalyzer
             {
                 return;
             }
+
             ProcessedCommandLine cmd = ProcessCscCommandLine(commandLine);
             _command = cmd.Command;
             _compilerFilePath = cmd.FileName;
@@ -309,6 +310,7 @@ namespace Buildalyzer
                                     part.Append((char)next);
                                 }
                             }
+
                             break;
                         case '\t':
                         case '\n':
@@ -327,6 +329,7 @@ namespace Buildalyzer
                                 yield return part.ToString();
                                 part.Clear();
                             }
+
                             break;
                         case '"':
                             isInQuote = !isInQuote;
@@ -424,6 +427,7 @@ namespace Buildalyzer
                                     part.Append((char)next);
                                 }
                             }
+
                             break;
                         case '\t':
                         case '\n':
@@ -441,6 +445,7 @@ namespace Buildalyzer
                                 yield return part.ToString();
                                 part.Clear();
                             }
+
                             break;
 
                         // case ' ':

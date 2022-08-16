@@ -289,7 +289,7 @@ namespace Buildalyzer.Workspaces
         {
             string projectDirectory = Path.GetDirectoryName(analyzerResult.ProjectFilePath);
             string[] additionalFiles = analyzerResult.AdditionalFiles ?? Array.Empty<string>();
-            return GetDocuments(additionalFiles.Select(x => Path.Combine(projectDirectory!, x)), projectId);
+            return GetDocuments(additionalFiles.Select(x => Path.Combine(projectDirectory, x)), projectId);
         }
 
         private static IEnumerable<MetadataReference> GetMetadataReferences(IAnalyzerResult analyzerResult) =>
@@ -303,8 +303,8 @@ namespace Buildalyzer.Workspaces
             IAnalyzerAssemblyLoader loader = workspace.Services.GetRequiredService<IAnalyzerService>().GetLoader();
 
             string projectDirectory = Path.GetDirectoryName(analyzerResult.ProjectFilePath);
-            return analyzerResult.AnalyzerReferences?.Where(x => File.Exists(Path.GetFullPath(x, projectDirectory!)))
-                .Select(x => new AnalyzerFileReference(Path.GetFullPath(x, projectDirectory!), loader))
+            return analyzerResult.AnalyzerReferences?.Where(x => File.Exists(Path.GetFullPath(Path.Combine(projectDirectory, x))))
+                .Select(x => new AnalyzerFileReference(Path.GetFullPath(Path.Combine(projectDirectory, x)), loader))
                 ?? (IEnumerable<AnalyzerReference>)Array.Empty<AnalyzerReference>();
         }
 
