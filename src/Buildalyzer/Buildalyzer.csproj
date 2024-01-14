@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.8.3" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" />
-    <PackageReference Include="MSBuild.StructuredLogger" Version="2.2.158" Aliases="StructuredLogger" />
+    <PackageReference Include="MSBuild.StructuredLogger" Version="2.2.100" Aliases="StructuredLogger" />
   </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
