@@ -20,6 +20,7 @@ namespace Buildalyzer
             {
                 _results[result.TargetFramework ?? string.Empty] = result;
             }
+
             _overallSuccess = _overallSuccess.HasValue ? _overallSuccess.Value && overallSuccess : overallSuccess;
         }
 
@@ -45,13 +46,22 @@ namespace Buildalyzer
 
             public int Compare(string x, string y)
             {
-                return (string.IsNullOrEmpty(x), string.IsNullOrEmpty(y)) switch
+                if (string.IsNullOrEmpty(x) && string.IsNullOrEmpty(y))
                 {
-                    (true, true) => 0,
-                    (true, false) => +1,
-                    (false, true) => -1,
-                    _ => StringComparer.OrdinalIgnoreCase.Compare(x, y)
-                };
+                    return 0;
+                }
+
+                if (string.IsNullOrEmpty(x) && !string.IsNullOrEmpty(y))
+                {
+                    return +1;
+                }
+
+                if (!string.IsNullOrEmpty(x) && string.IsNullOrEmpty(y))
+                {
+                    return -1;
+                }
+
+                return StringComparer.OrdinalIgnoreCase.Compare(x, y);
             }
         }
     }
