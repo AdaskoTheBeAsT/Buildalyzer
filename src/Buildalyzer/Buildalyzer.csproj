@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="MsBuildPipeLogger.Server" Version="1.1.6" />
     <PackageReference Include="NuGet.Frameworks" Version="6.9.1" />
     <PackageReference Include="Microsoft.Build" Version="17.9.5" />
