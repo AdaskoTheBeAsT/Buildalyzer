@@ -6,9 +6,12 @@
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);PackLogger</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="17.10.4" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.10.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build" Version="17.11.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.4" PrivateAssets="All" />
     <PackageReference Include="MsBuildPipeLogger.Logger" Version="1.1.6" PrivateAssets="All" IsLogger="true" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.20" />
   </ItemGroup>
 
   <!-- Get the logger files for later use -->
