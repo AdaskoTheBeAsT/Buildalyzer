@@ -131,7 +131,10 @@ namespace Buildalyzer.Tests.Integration
 
             // Then
             // If this is the multi-targeted project, use the net462 target
-            IReadOnlyList<string> sourceFiles = results.Count == 1 ? results.First().SourceFiles : results["net462"].SourceFiles;
+            IReadOnlyList<string> sourceFiles =
+                results.Count == 1
+                    ? results.First().SourceFiles
+                    : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
             sourceFiles.ShouldNotBeNull(log.ToString());
             new[]
             {
@@ -196,7 +199,10 @@ namespace Buildalyzer.Tests.Integration
 
                 // Then
                 // If this is the multi-targeted project, use the net462 target
-                IReadOnlyList<string> sourceFiles = results.Count == 1 ? results.First().SourceFiles : results["net462"].SourceFiles;
+                IReadOnlyList<string> sourceFiles =
+                    results.Count == 1
+                        ? results.First().SourceFiles
+                        : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
                 sourceFiles.ShouldNotBeNull(log.ToString());
                 new[]
                 {
@@ -226,7 +232,10 @@ namespace Buildalyzer.Tests.Integration
             IAnalyzerResults results = analyzer.Build();
 
             // Then
-            IReadOnlyList<string> sourceFiles = results.SingleOrDefault()?.SourceFiles;
+            IReadOnlyList<string> sourceFiles =
+                results.Count == 1
+                ? results.First().SourceFiles
+                : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
             sourceFiles.ShouldNotBeNull(log.ToString());
             new[]
             {
