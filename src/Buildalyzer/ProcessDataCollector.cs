@@ -1,27 +1,28 @@
 namespace Buildalyzer;
 
 /// <summary>Collects the <see cref="ProcessData"/> durring a <see cref="System.Diagnostics.Process"/>.</summary>
-[DebuggerDisplay("ExitCode = {Process.ExitCode}, Output = {Process.Output.Length}, Error = {Process.Error.Length}")]
+[DebuggerDisplay("ExitCode = {_process.ExitCode}, Output = {_output.Count}, Error = {_error.Count}")]
 internal sealed class ProcessDataCollector : IDisposable
 {
-    private readonly Process Process;
-    private readonly List<string> Output = [];
-    private readonly List<string> Error = [];
+    private readonly Process _process;
+    private readonly List<string> _output = [];
+    private readonly List<string> _error = [];
+    private bool _disposed;
 
     public ProcessDataCollector(Process process)
     {
-        Process = process;
-        Process.OutputDataReceived += OutputDataReceived;
-        Process.ErrorDataReceived += ErrorDataReceived;
+        _process = process;
+        _process.OutputDataReceived += OutputDataReceived;
+        _process.ErrorDataReceived += ErrorDataReceived;
     }
 
     public ProcessData Data => new(
-        [.. Output],
-        [.. Error]);
+        [.. _output],
+        [.. _error]);
 
-    private void OutputDataReceived(object? sender, DataReceivedEventArgs e) => Add(e.Data, Output);
+    private void OutputDataReceived(object? sender, DataReceivedEventArgs e) => Add(e.Data, _output);
 
-    private void ErrorDataReceived(object? sender, DataReceivedEventArgs e) => Add(e.Data, Error);
+    private void ErrorDataReceived(object? sender, DataReceivedEventArgs e) => Add(e.Data, _error);
 
     private static void Add(string? value, List<string> buffer)
     {
@@ -34,13 +35,11 @@ internal sealed class ProcessDataCollector : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        if (!Disposed)
+        if (!_disposed)
         {
-            Process.OutputDataReceived -= OutputDataReceived;
-            Process.ErrorDataReceived -= ErrorDataReceived;
-            Disposed = true;
+            _process.OutputDataReceived -= OutputDataReceived;
+            _process.ErrorDataReceived -= ErrorDataReceived;
+            _disposed = true;
         }
     }
-
-    private bool Disposed;
 }
