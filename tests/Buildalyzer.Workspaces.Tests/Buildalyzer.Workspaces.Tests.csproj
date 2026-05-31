@@ -1,38 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>net10.0;net472</TargetFrameworks>
     <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
-    <PackageReference Include="NUnit" Version="4.4.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
-    <PackageReference Include="Shouldly" Version="4.3.0" />
+    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" PrivateAssets="all" />
     <PackageReference Include="MsBuildPipeLogger.Logger" Version="1.1.6" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="Shouldly" Version="4.2.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="Build tools">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" PrivateAssets="all" />
-    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
-  </ItemGroup>
-
-
-  <ItemGroup Label="Analyzers">
-    <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.0" PrivateAssets="all" />
+    <PackageReference Include="NUnit" Version="4.6.1" />
     <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.2.0" PrivateAssets="all" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../src/Buildalyzer.Workspaces/Buildalyzer.Workspaces.csproj" />
     <ProjectReference Include="../Buildalyzer.Tests/Buildalyzer.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
 
   <PropertyGroup Condition=" $([MSBuild]::IsOsPlatform('Windows')) ">

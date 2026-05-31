@@ -7,7 +7,7 @@ namespace Buildalyzer.Logger;
 
 public class BuildalyzerLogger : PipeLogger
 {
-    private string _pipeHandleAsString;
+    private string _pipeHandleAsString = string.Empty;
     private bool _logEverything;
 
     public override void Initialize(IEventSource eventSource)

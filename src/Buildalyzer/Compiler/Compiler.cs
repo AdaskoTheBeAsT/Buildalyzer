@@ -24,7 +24,7 @@ public static class Compiler
         {
             var tokens = SplitCommandLineIntoArguments(commandLine, language) ?? throw new FormatException("Commandline could not be parsed.");
             var location = new FileInfo(tokens[0]);
-            var args = tokens[1..];
+            var args = tokens.Skip(1).ToArray();
 
             return Parse(baseDir?.ToString(), location.Directory?.ToString(), args, language) with
             {
@@ -78,14 +78,14 @@ public static class Compiler
         public static FSharpCompilerCommand Parse(string[] args)
         {
             var sourceFiles = args.Where(a => a[0] != '-').Select(IOPath.Parse);
-            var preprocessorSymbolNames = args.Where(a => a.StartsWith("--define:")).Select(a => a[9..]);
-            var metadataReferences = args.Where(a => a.StartsWith("-r:")).Select(a => a[3..]);
+            var preprocessorSymbolNames = args.Where(a => a.StartsWith("--define:")).Select(a => a.Skip(9));
+            var metadataReferences = args.Where(a => a.StartsWith("-r:")).Select(a => a.Skip(3));
 
             return new()
             {
-                MetadataReferences = [.. metadataReferences],
-                PreprocessorSymbolNames = [.. preprocessorSymbolNames],
-                SourceFiles = [.. sourceFiles],
+                MetadataReferences = metadataReferences.Select(c => new string(c.ToArray())).ToImmutableArray(),
+                PreprocessorSymbolNames = preprocessorSymbolNames.Select(c => new string(c.ToArray())).ToImmutableArray(),
+                SourceFiles = sourceFiles.ToImmutableArray(),
             };
         }
     }

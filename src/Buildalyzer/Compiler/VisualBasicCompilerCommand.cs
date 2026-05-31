@@ -8,5 +8,5 @@ public sealed record VisualBasicCompilerCommand : RoslynBasedCompilerCommand<Vis
     public override CompilerLanguage Language => CompilerLanguage.VisualBasic;
 
     /// <inheritdoc cref="VisualBasicParseOptions.PreprocessorSymbols" />
-    public ImmutableDictionary<string, object>? PreprocessorSymbols { get; init; }
+    public ImmutableDictionary<string, object>? PreprocessorSymbols { get; set; }
 }

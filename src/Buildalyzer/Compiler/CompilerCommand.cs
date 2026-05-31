@@ -11,42 +11,42 @@ public abstract record CompilerCommand
     public abstract CompilerLanguage Language { get; }
 
     /// <summary>The original text of the compiler command.</summary>
-    public string Text { get; init; } = string.Empty;
+    public string Text { get; set; } = string.Empty;
 
     /// <summary>The parsed command line arguments.</summary>
-    public ImmutableArray<string> Arguments { get; init; } = [];
+    public ImmutableArray<string> Arguments { get; set; } = [];
 
     /// <summary>The location of the used compiler.</summary>
-    public FileInfo? CompilerLocation { get; init; }
+    public FileInfo? CompilerLocation { get; set; }
 
     /// <inheritdoc  cref="CommandLineArguments.Errors" />
-    public ImmutableArray<Diagnostic> Errors { get; init; } = [];
+    public ImmutableArray<Diagnostic> Errors { get; set; } = [];
 
     /// <inheritdoc  cref="CommandLineArguments.SourceFiles" />
-    public ImmutableArray<IOPath> SourceFiles { get; init; } = [];
+    public ImmutableArray<IOPath> SourceFiles { get; set; } = [];
 
     /// <inheritdoc  cref="CommandLineArguments.AdditionalFiles" />
-    public ImmutableArray<IOPath> AdditionalFiles { get; init; } = [];
+    public ImmutableArray<IOPath> AdditionalFiles { get; set; } = [];
 
     /// <inheritdoc  cref="CommandLineArguments.EmbeddedFiles" />
-    public ImmutableArray<IOPath> EmbeddedFiles { get; init; } = [];
+    public ImmutableArray<IOPath> EmbeddedFiles { get; set; } = [];
 
     /// <inheritdoc  cref="CommandLineArguments.AnalyzerReferences" />
-    public ImmutableArray<IOPath> AnalyzerReferences { get; init; } = [];
+    public ImmutableArray<IOPath> AnalyzerReferences { get; set; } = [];
 
     /// <inheritdoc  cref="CommandLineArguments.AnalyzerConfigPaths" />
-    public ImmutableArray<IOPath> AnalyzerConfigPaths { get; init; } = [];
+    public ImmutableArray<IOPath> AnalyzerConfigPaths { get; set; } = [];
 
     /// <inheritdoc  cref="ParseOptions.PreprocessorSymbolNames" />
-    public ImmutableArray<string> PreprocessorSymbolNames { get; init; } = [];
+    public ImmutableArray<string> PreprocessorSymbolNames { get; set; } = [];
 
     /// <inheritdoc cref="CommandLineArguments.MetadataReferences" />
-    public ImmutableArray<string> MetadataReferences { get; init; } = [];
+    public ImmutableArray<string> MetadataReferences { get; set; } = [];
 
     /// <summary>
     /// The aliases used in the command line arguments.
     /// </summary>
-    public ImmutableDictionary<string, ImmutableArray<string>> Aliases { get; init; } = ImmutableDictionary<string, ImmutableArray<string>>.Empty;
+    public ImmutableDictionary<string, ImmutableArray<string>> Aliases { get; set; } = ImmutableDictionary<string, ImmutableArray<string>>.Empty;
 
     /// <inheritdoc />
     [Pure]

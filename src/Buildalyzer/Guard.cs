@@ -21,7 +21,7 @@ internal static class Guard
     /// The guarded parameter.
     /// </returns>
     [DebuggerStepThrough]
-    public static T NotNull<T>([ValidatedNotNull] T? parameter, [CallerArgumentExpression(nameof(parameter))] string? paramName = null)
+    public static T NotNull<T>([ValidatedNotNull] T? parameter, string? paramName = null)
         where T : class
         => parameter ?? throw new ArgumentNullException(paramName);
 

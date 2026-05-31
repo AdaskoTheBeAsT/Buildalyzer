@@ -118,7 +118,13 @@ public sealed class BuildEnvironment
             }
 
             // Copy to a new dictionary in case the source dictionary is mutated
-            return new Dictionary<string, string>(source, StringComparer.OrdinalIgnoreCase);
+            var original =  new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (KeyValuePair<string, string> item in destination)
+            {
+                original[item.Key] = item.Value;
+            }
+
+            return original;
         }
         return null;
     }

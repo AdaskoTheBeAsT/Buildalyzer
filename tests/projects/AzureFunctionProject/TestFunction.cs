@@ -9,9 +9,7 @@ public class TestFunction
     [FunctionName(nameof(TestFunction))]
     public async Task Run([CosmosDBTrigger(
             databaseName: "databaseName",
-            collectionName: "collectionName",
-            ConnectionStringSetting = "",
-            LeaseCollectionName = "leases")]string input,
+            containerName: "containerName")]string input,
         ILogger log)
     {
         if (input != null)

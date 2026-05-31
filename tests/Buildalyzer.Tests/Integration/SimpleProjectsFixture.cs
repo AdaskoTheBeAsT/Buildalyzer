@@ -225,10 +225,10 @@ public class SimpleProjectsFixture
         IAnalyzerResults results = analyzer.Build();
 
         // Then
-            IReadOnlyList<string> sourceFiles =
-                results.Count == 1
-                ? results.First().SourceFiles
-                : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
+        IReadOnlyList<string> sourceFiles =
+            results.Count == 1
+            ? results.First().SourceFiles
+            : results.First(r => !string.IsNullOrEmpty(r.TargetFramework)).SourceFiles;
         sourceFiles.ShouldNotBeNull(log.ToString());
         new[]
         {
@@ -252,7 +252,7 @@ public class SimpleProjectsFixture
         IAnalyzerResults results = analyzer.Build();
 
         // Then
-        IReadOnlyList<string> sourceFiles = results.SingleOrDefault()?.SourceFiles;
+        IReadOnlyList<string> sourceFiles = results.FirstOrDefault()?.SourceFiles;
         sourceFiles.ShouldNotBeNull(log.ToString());
         new[]
         {

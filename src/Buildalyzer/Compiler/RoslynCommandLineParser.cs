@@ -17,7 +17,7 @@ internal static class RoslynCommandLineParser
             {
                 if (args[i].IsMatchEnd(exec))
                 {
-                    return args[i..];
+                    return args.Skip(i).ToArray();
                 }
             }
         }

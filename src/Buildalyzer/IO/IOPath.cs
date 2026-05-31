@@ -41,7 +41,7 @@ public readonly struct IOPath : IEquatable<IOPath>, IFormattable
 
     /// <inheritdoc />
     [Pure]
-    public override bool Equals([NotNullWhen(true)] object? obj)
+    public override bool Equals(object? obj)
         => obj is IOPath other && Equals(other);
 
     /// <inheritdoc />

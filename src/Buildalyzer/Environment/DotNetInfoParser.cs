@@ -74,14 +74,14 @@ internal static class DotNetInfoParser
 
         void AddSdk(string line)
         {
-            if (line.Split(Splitters, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) is { Length: 2 } parts)
+            if (line.Split(Splitters, StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToArray() is { Length: 2 } parts)
             {
                 sdks[parts[0]] = UnifyPath(Path.Combine(parts[1], parts[0]));
             }
         }
         void AddRunTime(string line)
         {
-            if (line.Split(Splitters, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) is { Length: 2 } parts)
+            if (line.Split(Splitters, StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToArray() is { Length: 2 } parts)
             {
                 runtimes[parts[0]] = UnifyPath(parts[1]);
             }
@@ -90,13 +90,13 @@ internal static class DotNetInfoParser
 
     [Pure]
     private static Version? Version(string prefix, string line)
-            => line.IsMatchStart(prefix) && System.Version.TryParse(line[prefix.Length..].Trim(), out var parsed)
+            => line.IsMatchStart(prefix) && System.Version.TryParse(line.Substring(prefix.Length).Trim(), out var parsed)
                 ? parsed
                 : null;
 
     [Pure]
     private static string? Label(string prefix, string line)
-        => line.IsMatchStart(prefix) && line[prefix.Length..].Trim() is { Length: > 0 } label
+        => line.IsMatchStart(prefix) && line.Substring(prefix.Length).Trim() is { Length: > 0 } label
             ? label
             : null;
 
@@ -105,7 +105,7 @@ internal static class DotNetInfoParser
     {
         if (line.IsMatchStart("Base Path:"))
         {
-            var path = line[10..].Trim();
+            var path = line.Substring(10).Trim();
 
             // Make sure the base path matches the runtime architecture if on Windows
             // Note that this only works for the default installation locations under "Program Files"

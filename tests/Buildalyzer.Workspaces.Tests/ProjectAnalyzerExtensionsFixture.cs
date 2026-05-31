@@ -141,7 +141,7 @@ public class ProjectAnalyzerExtensionsFixture
         // Then
         string logged = log.ToString();
         logged.ShouldNotContain("Workspace failed");
-        project.AnalyzerReferences.ShouldContain(reference => reference.Display == "Microsoft.CodeQuality.Analyzers");
+        project.AnalyzerReferences.ShouldContain(reference => reference.Display == "Microsoft.CodeAnalysis.NetAnalyzers");
     }
 
     [Test]

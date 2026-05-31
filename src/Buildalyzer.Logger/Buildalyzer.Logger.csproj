@@ -3,7 +3,7 @@
   <Import Project="../../package.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
     <IncludeBuildOutput>true</IncludeBuildOutput>
     <Description>The MSBuild logger for Buildalyzer. Not intended to be used directly.</Description>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);PackLogger</TargetsForTfmSpecificBuildOutput>
@@ -20,9 +20,14 @@ ToBeReleased
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="17.14.28" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.14.28" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build" Version="18.6.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.6.3" PrivateAssets="All" />
     <PackageReference Include="MsBuildPipeLogger.Logger" Version="1.1.6" PrivateAssets="All" IsLogger="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Sbom.Targets" Version="4.1.5" />
+    <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
 
   <!-- Get the logger files for later use -->

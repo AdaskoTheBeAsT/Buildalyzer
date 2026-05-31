@@ -4,9 +4,9 @@ internal static class FSharpCommandLineParser
 {
     [Pure]
     public static string[]? SplitCommandLineIntoArguments(string? commandLine)
-        => commandLine?.Split(Splitters, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries) is { Length: > 0 } args
+        => commandLine?.Split(Splitters, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray() is { Length: > 0 } args
         && First(args[0]).ToArray() is { Length: >= 1 } first
-            ? [.. first, .. args[1..]]
+            ? [.. first, .. args.Skip(1)]
             : null;
 
     [Pure]
@@ -30,7 +30,8 @@ internal static class FSharpCommandLineParser
                 if (quote)
                 {
                     quote = false;
-                    yield return arg[first..cursor];
+                    if (cursor > first)
+                        yield return arg.Substring(first, cursor - first);
                 }
                 else
                 {
@@ -40,12 +41,13 @@ internal static class FSharpCommandLineParser
             }
             else if (ch == ' ' && cursor >= first && !quote)
             {
-                yield return arg[first..cursor];
+                if (cursor > first)
+                    yield return arg.Substring(first, cursor - first);
                 first = cursor + 1;
             }
             cursor++;
         }
-        yield return arg[first..];
+        yield return arg.Substring(first);
     }
 
     [Pure]

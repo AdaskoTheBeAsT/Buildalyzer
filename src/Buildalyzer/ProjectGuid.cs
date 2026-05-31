@@ -39,7 +39,7 @@ internal static class ProjectGuid
         using var sha1 = SHA1.Create();
         sha1.TransformBlock(ns, 0, ns.Length, null, 0);
         sha1.TransformFinalBlock(bytes, 0, bytes.Length);
-        return sha1.Hash![..16];
+        return sha1.Hash!.Take(16).ToArray();
     }
 
     /// <summary>Converts a GUID (expressed as a byte array) to/from network order (MSB-first).</summary>

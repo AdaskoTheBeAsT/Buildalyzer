@@ -326,7 +326,7 @@ public class ProjectAnalyzer : IProjectAnalyzer
         argument = argument.Replace("\"", "\\\"");
 
         // Also escape trailing slashes so they don't escape the closing quote
-        if (argument.EndsWith('\\'))
+        if (argument.EndsWith("\\"))
         {
             argument = $"{argument}\\";
         }
