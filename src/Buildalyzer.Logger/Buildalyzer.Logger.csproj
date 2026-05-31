@@ -3,7 +3,7 @@
   <Import Project="../../package.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <IncludeBuildOutput>true</IncludeBuildOutput>
     <Description>The MSBuild logger for Buildalyzer. Not intended to be used directly.</Description>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);PackLogger</TargetsForTfmSpecificBuildOutput>

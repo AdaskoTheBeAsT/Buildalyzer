@@ -3,7 +3,7 @@
   <Import Project="../../package.props" />
   
   <PropertyGroup>
-    <TargetFrameworks>net10.0;net472;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <PackageId>Buildalyzer</PackageId>
     <PackageValidationBaselineVersion>7.0.1</PackageValidationBaselineVersion>
     <OutputType>library</OutputType>
