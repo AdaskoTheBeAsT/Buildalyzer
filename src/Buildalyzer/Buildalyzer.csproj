@@ -4,6 +4,9 @@
   
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
+    <FullFrameworkLoggerTargetFramework>net472</FullFrameworkLoggerTargetFramework>
+    <FullFrameworkLoggerOutputSubdirectory>Buildalyzer.Logger\$(FullFrameworkLoggerTargetFramework)\</FullFrameworkLoggerOutputSubdirectory>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);PackFullFrameworkLogger</TargetsForTfmSpecificBuildOutput>
     <PackageId>Buildalyzer</PackageId>
     <PackageValidationBaselineVersion>7.0.1</PackageValidationBaselineVersion>
     <OutputType>library</OutputType>
@@ -49,5 +52,66 @@ ToBeReleased
     <PackageReference Update="Microsoft.Sbom.Targets" Version="4.1.5" />
     <PackageReference Update="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
+
+  <Target
+    Name="CopyFullFrameworkLogger"
+    BeforeTargets="CopyFilesToOutputDirectory"
+    Condition="'$(TargetFramework)' != '' and '$(TargetFramework)' != '$(FullFrameworkLoggerTargetFramework)'">
+    <MSBuild
+      Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj"
+      Targets="Build"
+      Properties="TargetFramework=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform)"
+      Condition="'$(NoBuild)' != 'true'" />
+
+    <MSBuild
+      Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj"
+      Targets="GetLoggerRuntimeFiles"
+      Properties="TargetFramework=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform)">
+      <Output TaskParameter="TargetOutputs" ItemName="_FullFrameworkLoggerFile" />
+    </MSBuild>
+
+    <Copy
+      SourceFiles="@(_FullFrameworkLoggerFile)"
+      DestinationFolder="$(TargetDir)$(FullFrameworkLoggerOutputSubdirectory)"
+      SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target
+    Name="AddFullFrameworkLoggerToCopyOutput"
+    BeforeTargets="_GetCopyToOutputDirectoryItemsFromThisProject;GetCopyToPublishDirectoryItems"
+    DependsOnTargets="CopyFullFrameworkLogger"
+    Condition="'$(TargetFramework)' != '' and '$(TargetFramework)' != '$(FullFrameworkLoggerTargetFramework)'">
+    <ItemGroup>
+      <_FullFrameworkLoggerCopiedFile Include="$(TargetDir)$(FullFrameworkLoggerOutputSubdirectory)**\*.*" />
+    </ItemGroup>
+
+    <AssignTargetPath Files="@(_FullFrameworkLoggerCopiedFile)" RootFolder="$(TargetDir)">
+      <Output TaskParameter="AssignedFiles" ItemName="_FullFrameworkLoggerCopiedFileWithTargetPath" />
+    </AssignTargetPath>
+
+    <ItemGroup>
+      <ContentWithTargetPath Include="@(_FullFrameworkLoggerCopiedFileWithTargetPath)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ContentWithTargetPath>
+    </ItemGroup>
+  </Target>
+
+  <Target
+    Name="PackFullFrameworkLogger"
+    DependsOnTargets="CopyFullFrameworkLogger"
+    Condition="'$(TargetFramework)' != '' and '$(TargetFramework)' != '$(FullFrameworkLoggerTargetFramework)'">
+    <ItemGroup>
+      <_FullFrameworkLoggerPackageFile Include="$(TargetDir)$(FullFrameworkLoggerOutputSubdirectory)**\*.*" />
+    </ItemGroup>
+
+    <AssignTargetPath Files="@(_FullFrameworkLoggerPackageFile)" RootFolder="$(TargetDir)">
+      <Output TaskParameter="AssignedFiles" ItemName="_FullFrameworkLoggerPackageFileWithTargetPath" />
+    </AssignTargetPath>
+
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(_FullFrameworkLoggerPackageFileWithTargetPath)" />
+    </ItemGroup>
+  </Target>
 
 </Project>

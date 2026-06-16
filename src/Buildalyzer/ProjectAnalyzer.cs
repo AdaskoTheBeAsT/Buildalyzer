@@ -15,6 +15,10 @@ namespace Buildalyzer;
 
 public class ProjectAnalyzer : IProjectAnalyzer
 {
+    private const string FullFrameworkLoggerDirectoryName = "Buildalyzer.Logger";
+
+    private const string FullFrameworkLoggerTargetFramework = "net472";
+
     private readonly List<ILogger> _buildLoggers = [];
 
     // Project-specific global properties and environment variables
@@ -269,7 +273,7 @@ public class ProjectAnalyzer : IProjectAnalyzer
         }
 
         // Get the logger arguments (/l)
-        string loggerPath = GetLoggerPath();
+        string loggerPath = GetLoggerPath(isDotNet);
 
         bool logEverything = _buildLoggers.Count > 0;
         string loggerArgStart = "/l"; // in case of MSBuild.exe use slash as parameter prefix for logger
@@ -303,7 +307,13 @@ public class ProjectAnalyzer : IProjectAnalyzer
         return fileName;
     }
 
-    private static string GetLoggerPath()
+    private static string GetLoggerPath(bool isDotNet)
+    {
+        string loggerPath = GetCurrentLoggerPath();
+        return isDotNet ? loggerPath : GetFullFrameworkLoggerPath(loggerPath);
+    }
+
+    private static string GetCurrentLoggerPath()
     {
         string loggerPath = typeof(BuildalyzerLogger).Assembly.Location;
         if (!string.IsNullOrEmpty(loggerPath))
@@ -318,6 +328,39 @@ public class ProjectAnalyzer : IProjectAnalyzer
         }
 
         return loggerDllPathEnv;
+    }
+
+    private static string GetFullFrameworkLoggerPath(string loggerPath)
+    {
+        string? loggerDirectory = Path.GetDirectoryName(loggerPath);
+        if (!string.IsNullOrEmpty(loggerDirectory))
+        {
+            string loggerFileName = Path.GetFileName(loggerPath);
+            string copiedLoggerPath = Path.Combine(
+                loggerDirectory,
+                FullFrameworkLoggerDirectoryName,
+                FullFrameworkLoggerTargetFramework,
+                loggerFileName);
+            if (File.Exists(copiedLoggerPath))
+            {
+                return copiedLoggerPath;
+            }
+
+            DirectoryInfo? parentDirectory = Directory.GetParent(loggerDirectory);
+            if (parentDirectory != null)
+            {
+                string siblingLoggerPath = Path.Combine(
+                    parentDirectory.FullName,
+                    FullFrameworkLoggerTargetFramework,
+                    loggerFileName);
+                if (File.Exists(siblingLoggerPath))
+                {
+                    return siblingLoggerPath;
+                }
+            }
+        }
+
+        return loggerPath;
     }
 
     private static string FormatArgument(string argument)

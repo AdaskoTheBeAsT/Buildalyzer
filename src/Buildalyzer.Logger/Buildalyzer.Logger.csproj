@@ -47,4 +47,12 @@ ToBeReleased
     </ItemGroup>
   </Target>
 
+  <Target Name="GetLoggerRuntimeFiles" Returns="@(LoggerRuntimeFile)">
+    <ItemGroup>
+      <LoggerRuntimeFile Include="$(TargetDir)**\*.*">
+        <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+      </LoggerRuntimeFile>
+    </ItemGroup>
+  </Target>
+
 </Project>
