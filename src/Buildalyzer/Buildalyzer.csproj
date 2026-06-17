@@ -57,16 +57,26 @@ ToBeReleased
     Name="CopyFullFrameworkLogger"
     BeforeTargets="CopyFilesToOutputDirectory"
     Condition="'$(TargetFramework)' != '' and '$(TargetFramework)' != '$(FullFrameworkLoggerTargetFramework)'">
+    <PropertyGroup>
+      <_FullFrameworkLoggerBaseOutputPath>$([MSBuild]::EnsureTrailingSlash($(BaseOutputPath)))Buildalyzer.Logger\</_FullFrameworkLoggerBaseOutputPath>
+      <_FullFrameworkLoggerBaseIntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash($(BaseIntermediateOutputPath)))Buildalyzer.Logger\</_FullFrameworkLoggerBaseIntermediateOutputPath>
+      <_FullFrameworkLoggerBuildProperties>TargetFramework=$(FullFrameworkLoggerTargetFramework);TargetFrameworks=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform);BaseOutputPath=$(_FullFrameworkLoggerBaseOutputPath);BaseIntermediateOutputPath=$(_FullFrameworkLoggerBaseIntermediateOutputPath)</_FullFrameworkLoggerBuildProperties>
+    </PropertyGroup>
+
     <MSBuild
       Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj"
-      Targets="Build"
-      Properties="TargetFramework=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform)"
+      Targets="Restore;Build"
+      Properties="$(_FullFrameworkLoggerBuildProperties)"
+      BuildInParallel="false"
+      RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath"
       Condition="'$(NoBuild)' != 'true'" />
 
     <MSBuild
       Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj"
       Targets="GetLoggerRuntimeFiles"
-      Properties="TargetFramework=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform)">
+      Properties="$(_FullFrameworkLoggerBuildProperties)"
+      BuildInParallel="false"
+      RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath">
       <Output TaskParameter="TargetOutputs" ItemName="_FullFrameworkLoggerFile" />
     </MSBuild>
 

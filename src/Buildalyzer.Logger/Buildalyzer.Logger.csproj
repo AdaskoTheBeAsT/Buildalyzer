@@ -5,6 +5,7 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net472</TargetFrameworks>
     <IncludeBuildOutput>true</IncludeBuildOutput>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**\*</DefaultItemExcludes>
     <Description>The MSBuild logger for Buildalyzer. Not intended to be used directly.</Description>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);PackLogger</TargetsForTfmSpecificBuildOutput>
     <PackageId>Buildalyzer.Logger</PackageId>
