@@ -52,6 +52,8 @@ public interface IAnalyzerResult
 
     string[] AdditionalFiles { get; }
 
+    string[] AnalyzerConfigFiles { get; }
+
     /// <summary>
     /// Gets the compiler command produced by the CoreCompile task.
     /// This is <see cref="CompilerFilePath"/> + <see cref="CompilerArguments"/>.
