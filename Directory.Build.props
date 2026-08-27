@@ -56,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaskoTheBeAsT.IDisposableAnalyzers" Version="4.0.7.200" PrivateAssets="all"/>
+    <PackageReference Include="AdaskoTheBeAsT.IDisposableAnalyzers" Version="4.0.7.250" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.7.23" PrivateAssets="All"/>
     <PackageReference Include="Roslynator.Analyzers" Version="5.0.0" PrivateAssets="All"/>
