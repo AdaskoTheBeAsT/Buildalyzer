@@ -1,4 +1,5 @@
 extern alias StructuredLogger;
+using Buildalyzer.Environment;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +11,7 @@ internal class EventProcessor : IDisposable
     private readonly Stack<AnalyzerResult> _currentResult = new();
     private readonly Stack<TargetStartedEventArgs> _targetStack = new();
     private readonly Dictionary<int, PropertiesAndItems> _evalulationResults = [];
+    private readonly HashSet<int> _restoreContexts = [];
     private readonly AnalyzerManager _manager;
     private readonly ProjectAnalyzer _analyzer;
     private readonly ILogger<EventProcessor> _logger;
@@ -72,8 +74,27 @@ internal class EventProcessor : IDisposable
         }
     }
 
+    /// <remarks>
+    /// The restore pass evaluates the project without the package imports, so properties like
+    /// TargetFrameworkMoniker are absent. Those evaluations would end up as an extra (successful)
+    /// result keyed on an empty target framework.
+    /// </remarks>
+    private static bool IsRestorePass(ProjectStartedEventArgs e)
+        => e.GlobalProperties is { } globals
+        && (globals.ContainsKey(MsBuildProperties.MSBuildIsRestoring)
+            || globals.ContainsKey(MsBuildProperties.MSBuildRestoreSessionId));
+
     private void ProjectStarted(object sender, ProjectStartedEventArgs e)
     {
+        if (IsRestorePass(e))
+        {
+            if (e.BuildEventContext is { } context)
+            {
+                _restoreContexts.Add(context.ProjectContextId);
+            }
+            return;
+        }
+
         // If we're not using an analyzer (I.e., from a binary log) and this is the first project file path we've seen, then it's the primary
         if (_projectFilePath == null)
         {
@@ -118,6 +139,12 @@ internal class EventProcessor : IDisposable
 
     private void ProjectFinished(object sender, ProjectFinishedEventArgs e)
     {
+        // ProjectFinishedEventArgs has no global properties, so the restore pass is matched on its context
+        if (e.BuildEventContext is { } context && _restoreContexts.Contains(context.ProjectContextId))
+        {
+            return;
+        }
+
         // Make sure this is the same project, nested MSBuild tasks may have spawned additional builds of other projects
         if (AnalyzerManager.NormalizePath(e.ProjectFile) == _projectFilePath)
         {

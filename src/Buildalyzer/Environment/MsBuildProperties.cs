@@ -39,6 +39,10 @@ public static class MsBuildProperties
     public const string ResolveNuGetPackages = nameof(ResolveNuGetPackages);
     public const string NuGetRestoreTargets = nameof(NuGetRestoreTargets);
 
+    // Set by MSBuild on the project instances that are evaluated during the restore pass
+    public const string MSBuildIsRestoring = nameof(MSBuildIsRestoring);
+    public const string MSBuildRestoreSessionId = nameof(MSBuildRestoreSessionId);
+
     // Others
     public const string GenerateResourceMSBuildArchitecture = nameof(GenerateResourceMSBuildArchitecture);
     public const string NonExistentFile = nameof(NonExistentFile);
