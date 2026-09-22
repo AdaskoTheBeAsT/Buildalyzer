@@ -18,7 +18,7 @@
     <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
     <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8" PrivateAssets="all" />
     <PackageReference Include="LibGit2Sharp" Version="0.32.0" />
-    <PackageReference Include="Microsoft.Build" Version="18.10.1" />
+    <PackageReference Include="Microsoft.Build" Version="18.9.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" PrivateAssets="all" />
