@@ -10,8 +10,8 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
     <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.13" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" PrivateAssets="all" />
     <PackageReference Include="MsBuildPipeLogger.Logger" Version="1.1.6" GeneratePathProperty="true" />
     <PackageReference Include="NUnit" Version="5.0.0" />
