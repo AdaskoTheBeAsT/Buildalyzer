@@ -59,7 +59,9 @@ ToBeReleased
       <_FullFrameworkLoggerBuildProperties>TargetFramework=$(FullFrameworkLoggerTargetFramework);TargetFrameworks=$(FullFrameworkLoggerTargetFramework);Configuration=$(Configuration);Platform=$(Platform);BaseOutputPath=$(_FullFrameworkLoggerBaseOutputPath);BaseIntermediateOutputPath=$(_FullFrameworkLoggerBaseIntermediateOutputPath)</_FullFrameworkLoggerBuildProperties>
     </PropertyGroup>
 
-    <MSBuild Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj" Targets="Restore;Build" Properties="$(_FullFrameworkLoggerBuildProperties)" BuildInParallel="false" RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath" Condition="'$(NoBuild)' != 'true'" />
+    <!-- Restore with separate global properties so Build reevaluates the restored package imports. -->
+    <MSBuild Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj" Targets="Restore" Properties="$(_FullFrameworkLoggerBuildProperties);ExcludeRestorePackageImports=true" BuildInParallel="false" RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath" Condition="'$(NoBuild)' != 'true'" />
+    <MSBuild Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj" Targets="Build" Properties="$(_FullFrameworkLoggerBuildProperties)" BuildInParallel="false" RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath" Condition="'$(NoBuild)' != 'true'" />
 
     <MSBuild Projects="../Buildalyzer.Logger/Buildalyzer.Logger.csproj" Targets="GetLoggerRuntimeFiles" Properties="$(_FullFrameworkLoggerBuildProperties)" BuildInParallel="false" RemoveProperties="RuntimeIdentifier;SelfContained;PublishSelfContained;PublishDir;OutputPath">
       <Output TaskParameter="TargetOutputs" ItemName="_FullFrameworkLoggerFile" />
