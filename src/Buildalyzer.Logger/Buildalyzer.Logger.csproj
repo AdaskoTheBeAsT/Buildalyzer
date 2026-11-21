@@ -3,7 +3,7 @@
   <Import Project="../../package.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net10.0;net472</TargetFrameworks>
+    <TargetFrameworks>net11.0;net10.0;net472</TargetFrameworks>
     <IncludeBuildOutput>true</IncludeBuildOutput>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj\**\*</DefaultItemExcludes>
     <Description>The MSBuild logger for Buildalyzer. Not intended to be used directly.</Description>
@@ -20,9 +20,22 @@ ToBeReleased
     </PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
     <PackageReference Include="Microsoft.Build" Version="18.12.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.12.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Microsoft.Build" Version="18.9.6" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.9.6" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Microsoft.Build" Version="18.12.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.12.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MsBuildPipeLogger.Logger" Version="1.1.6" PrivateAssets="All" IsLogger="true" />
   </ItemGroup>
 
